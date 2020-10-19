@@ -1,0 +1,135 @@
+#!/bin/bash
+i=0
+CYAN_T=$(tput setaf 6)
+GREEN_T=$(tput setaf 2)
+DEFAULTC_T=$(tput setaf 7)
+PREMENU1=$(tput setaf 124)
+PREMENU2=$(tput setaf 160)
+MENU1=$(tput setaf 197)
+MENU2=$(tput setaf 198)
+MENU3=$(tput setaf 199)
+MENU4=$(tput setaf 200)
+MENU5=$(tput setaf 206)
+MENU6=$(tput setaf 207)
+MENU7=$(tput setaf 212)
+MENU8=$(tput setaf 213)
+MENU9=$(tput setaf 218)
+MENU10=$(tput setaf 219)
+PS3='Выберите желаемую опцию: '
+function print_help()
+{
+	echo ${PREMENU1}"Работа с файлом 03"${DEFAULTC_T}
+	echo
+	echo -e ${PREMENU2}"$PS3\n"${DEFAULTC_T}
+	echo -e ${MENU1}"\t1 - Вывести свободное количество памяти"${DEFAULTC_T}
+	echo
+	echo -e ${MENU2}"\t2 - Очистить кэш"${DEFAULTC_T}
+	echo
+	echo -e ${MENU3}"\t3 - Пингануть 42.fr"${DEFAULTC_T}
+	echo
+	echo -e ${MENU4}"\t4 - Информация о системе, версии ядра, архитектуре"${DEFAULTC_T}
+	echo
+	echo -e ${MENU5}"\t5 - Обновление brew"${DEFAULTC_T}
+	echo
+	echo -e ${MENU6}"\t6 - Список сетевых интерфейсов"${DEFAULTC_T}
+	echo
+	echo -e ${MENU7}"\t7 - Дата"${DEFAULTC_T}
+	echo
+	echo -e ${MENU8}"\t8 - Справка команд"${DEFAULTC_T}
+	echo
+	echo -e ${MENU9}"\t9 - Показать погоду в Москве"${DEFAULTC_T}
+	echo
+	echo -e ${MENU10}"\tq - Выход"${DEFAULTC_T}
+	echo
+}
+function timer()
+{
+	while sleep 1; do echo -n ${GREEN_T}"*" >&2; done
+}
+
+print_help
+while [ $i = 0 ]
+do
+	read opt >/dev/null 2>&1
+	case $opt in
+		"1")
+			clear
+			echo -n ${MENU1}"Доступно "
+			echo -n $(du -sh ~/ 2>/dev/null | awk '{print 5-$1}')
+			echo ${MENU1}"G"${DEFAULTC_T}
+			;;
+		"2")
+			clear
+			rm -rf ~/Library/*42_cache*
+			echo -e ${MENU2}"Очистка кэша завершена\t${DEFAULTC_T}${GREEN_T}[OK]${DEFAULTC_T}"
+			echo -n ${MENU2}"Доступно "
+			echo -n $(du -sh ~/ 2>/dev/null | awk '{print 5-$1}')
+			echo ${MENU2}"G"${DEFAULTC_T}
+			;;
+		"3")
+			clear
+			echo ${MENU3}""
+			ping 163.172.250.12
+			${DEFAULTC_T}
+			;;
+		"4")
+			clear
+			echo ${MENU4}""
+			uname -a
+			;;
+		"5")
+			clear
+			echo -e ${MENU5}"Идет обновление пакетов, процесс может занять некоторое время"
+			timer >/dev/null 2>&1 &
+			timer_pid=$!
+			echo -e "\n" $(brew update)
+			kill $timer_pid
+			wait $! 2>/dev/null	
+			echo -e "${MENU5}Обновление завершено${DEFAULTC_T}\t${GREEN_T}[OK]${DEFAULTC_T}"
+			;;
+		"6")
+			clear
+			echo ${MENU6}""
+			echo $(ifconfig -l)
+			${DEFAULTC_C}
+			;;
+		"7")
+			clear
+			echo ${MENU7}""
+			echo $(date)
+			${DEFAULT_C}
+			;;
+		"8")
+			clear
+			print_help
+			;;
+		"9")
+			clear
+			echo -e ${MENU9}"Идет получение ответа от сервера..."${DEFAULTC_T}
+			curl wttr.in/Moscow
+			;;
+		"q")
+			echo -e ${MENU10}"\t\t\t      Bye bye Bye B-Bb_y_02jYe"
+			echo "
+			  █ █████████████████    ████ █████
+			███████████████████      ████ █████
+			█████████████████        ███  █████
+			█████      █████  ▄      █   ██████
+			█████▄▄  ▄    ███     ▄▄██    █████
+			████████     ████████████    ██████
+			 ████  ████▀▀██  ██   █  █ █████ 
+			    ███   █   █     █    ██████ ███
+			████   ██  █     █  ███ ████    █
+			█████    ██████████████████  ▄▄  ██"${DEFAULTC_T}
+			break
+			;;
+		*) 
+			clear
+			echo "invalid option - $opt"
+			sleep 2
+			;;
+	esac
+	echo
+	echo "${CYAN_T}$PS3${DEFAULTC_T}"
+done
+>/dev/null 2>&1

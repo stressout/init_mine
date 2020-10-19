@@ -1,0 +1,8 @@
+# $! - the last process running in the background
+# $$ - the currect script's PID
+
+# So, we have started the background process in the last task, and now with help $! we will kill the last process
+
+sudo kill $!
+
+#or use ps aux, then look for number and kill process with help PID - kill PID

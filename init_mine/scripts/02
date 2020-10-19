@@ -1,0 +1,4 @@
+#!/bin/bash
+USERNAME=$1
+sudo pgrep -u $USERNAME | while read PID;do sudo kill $PID;done
+sudo userdel $USERNAME

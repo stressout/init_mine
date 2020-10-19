@@ -1,0 +1,3 @@
+# & - for background
+
+sudo tail -f /var/log/syslog &

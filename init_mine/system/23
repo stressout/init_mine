@@ -1,0 +1,3 @@
+#  Command for connect - ssh -p 2222 username@ip (ssh -p 2222 mkeel@127.0.0.1)
+#  Go to the screen for the entering the name and password -> enter your name and password.
+#  In two cases, you may need to enter a password
